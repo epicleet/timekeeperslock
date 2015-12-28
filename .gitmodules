@@ -1,0 +1,3 @@
+[submodule "keccak-bsv"]
+	path = keccak-bsv
+	url = https://github.com/thotypous/keccak-bsv.git
