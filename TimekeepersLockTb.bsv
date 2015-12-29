@@ -24,6 +24,7 @@ module mkTimekeepersLockTb (Empty);
 			sendStr(j, keypad, "A7FFC6F8BF1ED76651C14756A061D662F580FF4DE43B49FA82D80A4B80F8434A");
 		endpar
 		delay(3360);
+		$display("door unlocked? ", fshow(tklock.open_lock));
 	endseq);
 endmodule
 

@@ -57,6 +57,7 @@ module mkHashProvider (HashProvider);
 
 	interface Put info;
 		method Action put(NmeaInfo info) if (state == Idle);
+			$display("NmeaInfo: ", fshow(info));
 			function keccakInput(vec) = pack(append(vec, replicate('h20)));
 			case (info) matches
 				tagged Init: keccak.init;

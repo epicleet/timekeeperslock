@@ -1,6 +1,5 @@
 import GetPut::*;
 import Connectable::*;
-import GetPut::*;
 import ClientServer::*;
 import UART::*;
 import NmeaReader::*;
