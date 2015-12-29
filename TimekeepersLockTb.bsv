@@ -23,7 +23,7 @@ module mkTimekeepersLockTb (Empty);
 			sendStr(i, gps, "$GPRMC,092750.000,A,5321.6802,N,00630.3372,W,0.02,31.66,280511,,,A*43");
 			sendStr(j, keypad, "A7FFC6F8BF1ED76651C14756A061D662F580FF4DE43B49FA82D80A4B80F8434A");
 		endpar
-		delay(3000);
+		delay(3360);
 	endseq);
 endmodule
 

@@ -95,7 +95,7 @@ module mkNmeaReader (Server#(Byte, NmeaInfo));
 				state <= Idle;
 			end
 			cksum <= cksum_new;
-			$display("state = ",fshow(state),", counter = ",counter,", cksum = ",fshow(cksum));
+			$display("NmeaReader { state: ",fshow(state),", counter: ",counter,", cksum: ",fshow(cksum)," }");
 		endmethod
 	endinterface
 

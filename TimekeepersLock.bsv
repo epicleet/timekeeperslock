@@ -2,9 +2,9 @@ import GetPut::*;
 import Connectable::*;
 import GetPut::*;
 import ClientServer::*;
-import Keccak::*;
 import UART::*;
 import NmeaReader::*;
+import HashProvider::*;
 
 interface TimekeepersLock;
 	(* always_ready *)
@@ -18,13 +18,10 @@ module mkTimekeepersLock(TimekeepersLock);
 	let gps <- mkUartRx;
 	let keypad <- mkUartRx;
 	let nmea <- mkNmeaReader;
+	let prov <- mkHashProvider;
 
 	mkConnection(gps.rx, nmea.request);
-
-	rule read_gps;
-		let x <- nmea.response.get;
-		$display("response: ", fshow(x));
-	endrule
+	mkConnection(nmea.response, prov.info);
 
 	rule read_keypad;
 		let x <- keypad.rx.get;
