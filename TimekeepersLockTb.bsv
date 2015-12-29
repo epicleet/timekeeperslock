@@ -19,12 +19,22 @@ module mkTimekeepersLockTb (Empty);
 	mkConnection(keypad.wires, tklock.keypad_uart);
 
 	mkAutoFSM(seq
+		$display("door unlocked? ", fshow(tklock.open_lock), " // should be False");
+
 		par
 			sendStr(i, gps, "$GPRMC,092750.000,A,5321.6802,N,00630.3372,W,0.02,31.66,280511,,,A*43");
-			sendStr(j, keypad, "A7FFC6F8BF1ED76651C14756A061D662F580FF4DE43B49FA82D80A4B80F8434A");
+			sendStr(j, keypad, "127a2a3b6f4ad0ec3dcf46d6ecef44234fbce5f7cfdb81e4c17ec83f3496fa8");
 		endpar
 		delay(3360);
-		$display("door unlocked? ", fshow(tklock.open_lock));
+		$display("door unlocked? ", fshow(tklock.open_lock), " // should be False");
+
+		sendStr(j, keypad, "78");
+		delay(2560);
+		$display("door unlocked? ", fshow(tklock.open_lock),"  // should be True");
+
+		sendStr(j, keypad, "\n");
+		delay(2560);
+		$display("door unlocked? ", fshow(tklock.open_lock), " // should be False");
 	endseq);
 endmodule
 

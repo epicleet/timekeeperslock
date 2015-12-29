@@ -4,6 +4,7 @@ import ClientServer::*;
 import UART::*;
 import NmeaReader::*;
 import HashProvider::*;
+import KeypadBuffer::*;
 
 interface TimekeepersLock;
 	(* always_ready *)
@@ -18,16 +19,18 @@ module mkTimekeepersLock(TimekeepersLock);
 	let keypad <- mkUartRx;
 	let nmea <- mkNmeaReader;
 	let prov <- mkHashProvider;
+	let kbuf <- mkKeypadBuffer;
 
 	mkConnection(gps.rx, nmea.request);
 	mkConnection(nmea.response, prov.info);
 
-	rule read_keypad;
-		let x <- keypad.rx.get;
-		//$display("Keypad: %h", x);
-	endrule
+	mkConnection(keypad.rx, kbuf.uart);
 
-	method Bool open_lock = False;
+	method Bool open_lock =
+		case (prov.hash) matches
+			tagged Invalid: False;
+			tagged Valid .h: (h == kbuf.hash);
+		endcase;
 
 	interface gps_uart = gps.wires;
 	interface keypad_uart = keypad.wires;
