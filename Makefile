@@ -10,6 +10,10 @@ all: mkTimekeepersLock.v
 mkTimekeepersLock.v: TimekeepersLock.bsv $(SRCFILES)
 	bsc $(BSCFLAGS) -u -verilog -p +:$(BSCLIBS) $<
 
+tb: TimekeepersLockTb.bsv $(SRCFILES)
+	bsc $(BSCFLAGS) -u -sim -p +:$(BSCLIBS) $<
+	bsc -sim -o $@ -e mkTimekeepersLockTb
+
 clean:
 	$(MAKE) -C keccak-bsv clean
 	rm -f *.bo *.ba mk*.v mk*.cxx mk*.h mk*.o model_*.cxx model_*.h model_*.o

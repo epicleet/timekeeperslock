@@ -8,3 +8,7 @@ mk*.h
 model_*.o
 model_*.cxx
 model_*.h
+# Testbench
+/tb
+/tb.so
+*.vcd
