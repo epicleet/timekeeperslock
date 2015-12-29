@@ -35,7 +35,7 @@ module mkUartRx(UartRx);
 	Wire#(Bit#(1)) inb <- mkBypassWire;
 	Reg#(Bit#(10)) shiftReg <- mkReg(0);  // {stop_bit, data, start_bit}
 	let idle = shiftReg[0] == 0;   // the UartRx is idle when the start bit (0) is in place
-	Array#(Reg#(Bool)) pending <- mkCReg(2, False);
+	Array#(Reg#(Bool)) pending <- mkCRegU(2);
 	Reg#(Phase) phase <- mkRegU;
 
 	(* no_implicit_conditions, fire_when_enabled, preempts="detectStartBit, incPhase" *)
