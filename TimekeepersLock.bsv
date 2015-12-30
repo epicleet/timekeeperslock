@@ -21,16 +21,18 @@ module mkTimekeepersLock(TimekeepersLock);
 	let prov <- mkHashProvider;
 	let kbuf <- mkKeypadBuffer;
 
+	Reg#(Bool) hash_is_correct <- mkReg(False);
+
 	mkConnection(gps.rx, nmea.request);
 	mkConnection(nmea.response, prov.info);
 
 	mkConnection(keypad.rx, kbuf.uart);
 
-	method Bool open_lock =
-		case (prov.hash) matches
-			tagged Invalid: False;
-			tagged Valid .h: (h == kbuf.hash);
-		endcase;
+	rule check_hash (prov.hash matches tagged Valid .h);
+		hash_is_correct <= h == kbuf.hash;
+	endrule
+
+	method Bool open_lock = hash_is_correct;
 
 	interface gps_uart = gps.wires;
 	interface keypad_uart = keypad.wires;
